@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {FlatList, ScrollView, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {CONTAINER_STYLE} from "../shared/Styles";
 import {BoldText, CommonHeader, RegularText} from "../components/index";
-import {List, Divider} from 'react-native-paper';
+import {Divider} from 'react-native-paper';
 import {connect} from "react-redux";
-import {fetchRepositories, selectRepository} from "../store/actions";
+import {selectRepository} from "../store/actions";
 import {PRIMARY_COLOR, TERTIARY_COLOR} from "../shared/Colors";
 
 class RepositoryDetail extends Component {
@@ -88,6 +88,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-    fetchRepositories,
     selectRepository
 })(RepositoryDetail);

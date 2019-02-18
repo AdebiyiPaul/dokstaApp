@@ -4,47 +4,50 @@ import {CONTAINER_STYLE} from "../shared/Styles";
 import {BoldText, CommonHeader, RegularText} from "../components/index";
 import {List, Divider} from 'react-native-paper';
 import {connect} from "react-redux";
-import {fetchRepositories, selectRepository} from "../store/actions";
+import {fetchRepositoryList, selectRepository} from "../store/actions";
 import {LOGGER} from "../shared/Methods";
+import {CustomLoader} from "../components";
 
-class Repository extends Component {
+class ApiRepository extends Component {
 
     componentDidMount() {
-        this.props.fetchRepositories();
+        this.props.fetchRepositoryList();
     }
 
     onItemCLick(data)
     {
         this.props.selectRepository(data);
-        this.props.navigation.navigate('RepositoryDetail');
+        this.props.navigation.navigate('ApiRepositoryDetail');
     }
 
     _renderItem(item, index) {
         return <List.Item
-            title={<BoldText label={item.display_name} />}
-            description={<RegularText label={item.created_by} size={14} />}
+            title={<BoldText label={item.name} />}
+            description={<RegularText label={item.owner.login} size={14} />}
             right={props => <List.Icon {...props} icon='navigate-next' />}
             onPress={() => this.onItemCLick(item)}
         />
     }
 
     render() {
-        const { repositoryList } = this.props;
+        const { repositoryApiList, loading } = this.props;
 
         return (
             <View style={CONTAINER_STYLE}>
                 <CommonHeader
-                    title='Repositories With JSON'
+                    title='Repositories With API'
                     backAction
                     backActionPress={() => this.props.navigation.goBack()}
                 />
 
                 <FlatList
-                    data={repositoryList}
+                    data={repositoryApiList}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item, index}) => this._renderItem(item, index)}
                     ItemSeparatorComponent={Divider}
                 />
+
+                <CustomLoader visible={loading} />
 
             </View>
         );
@@ -56,6 +59,6 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-    fetchRepositories,
+    fetchRepositoryList,
     selectRepository
-})(Repository);
+})(ApiRepository);
