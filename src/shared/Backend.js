@@ -1,7 +1,5 @@
 const baseUrl = 'https://api.github.com/search/repositories?q=language:Java&sort=stars&order=desc';
 
-export const DELETE_EVENT_API = 'delete_event';
-
 export const SERVER_REQUEST = async (body, reqType) => {
     let response;
     // const _headers = await GET_HEADER();
